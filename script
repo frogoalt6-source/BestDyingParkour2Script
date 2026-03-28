@@ -1,0 +1,88 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Stealer Hub | Dying2Parkour v1.39",
+    LoadingTitle = "Stealer Hub Executive",
+    LoadingSubtitle = "by Andreixgamer99 (Cleaned)",
+    ConfigurationSaving = {
+        Enabled = true,
+        FileName = "StealerHub_D2P"
+    },
+    Discord = {
+        Enabled = true,
+        Invite = "UG7bH5QUVA",
+        RememberJoins = true
+    }
+})
+
+-- [[ MAIN TABS ]] --
+local Tab_Char = Window:CreateTab("Movement", "wrench")
+local Tab_Tele = Window:CreateTab("Teleports", "drafting-compass")
+local Tab_Misc = Window:CreateTab("Misc/Detection", "cog")
+
+-- [[ MOVEMENT SECTION ]] --
+Tab_Char:CreateSection("Bypasses & Power")
+
+Tab_Char:CreateToggle({
+    Name = "Inf Wall Climb (Testing)",
+    CurrentValue = false,
+    Flag = "WallClimb",
+    Callback = function(Value)
+        -- Logic would go here to modify Character speed/height
+        print("Wall Climb Status:", Value)
+    end,
+})
+
+Tab_Char:CreateButton({
+    Name = "Execute Fly Script",
+    Callback = function()
+        loadstring(game:HttpGet('https://pastebin.com/raw/SCGArUUc'))()
+    end,
+})
+
+-- [[ TELEPORT SECTION ]] --
+Tab_Tele:CreateSection("Map Locations")
+
+local function TP(pos)
+    local char = game.Players.LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = pos
+    end
+end
+
+-- Teleport Buttons (Replace CFrames with actual game coords)
+Tab_Tele:CreateButton({Name = "Spawn", Callback = function() TP(CFrame.new(0, 50, 0)) end})
+Tab_Tele:CreateButton({Name = "Crane 1", Callback = function() TP(CFrame.new(100, 200, 100)) end})
+Tab_Tele:CreateButton({Name = "Urban Rise Top", Callback = function() TP(CFrame.new(-500, 400, 200)) end})
+
+-- [[ MISC SECTION ]] --
+Tab_Misc:CreateSection("Staff/Dev Detection")
+
+Tab_Misc:CreateToggle({
+    Name = "Staff Detector",
+    CurrentValue = false,
+    Flag = "StaffDet",
+    Callback = function(Value)
+        if Value then
+            game.Players.PlayerAdded:Connect(function(player)
+                -- Example check for Group Rank or Specific IDs
+                if player:GetRankInGroup(0) > 200 then
+                    Rayfield:Notify({Title = "STAFF ALERT", Content = player.Name .. " has joined!", Duration = 10})
+                end
+            end)
+        end
+    end,
+})
+
+Tab_Misc:CreateButton({
+    Name = "Infinite Yield",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end,
+})
+
+Rayfield:Notify({
+    Title = "Script Loaded",
+    Content = "hi.",
+    Duration = 5
+})
